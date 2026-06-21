@@ -1,12 +1,12 @@
 # ───────────────────────────────────────────────────────────────────
-#  BREEZIL — Issue template chooser config
+#  BREEZIL - Issue template chooser config
 #  Path in each repo:  .github/ISSUE_TEMPLATE/config.yml
 #  Turns off blank issues and points people to the right places.
 # ───────────────────────────────────────────────────────────────────
 blank_issues_enabled: false
 contact_links:
   - name: 💬 Discord community
-    url: https://discord.gg/wYs3cnsYeX
+    url: https://discord.gg/7SxbNMYQNa
     about: Questions, help, and general chat happen fastest here.
   - name: 🗣️ GitHub Discussions
     url: https://github.com/orgs/Breezil/discussions

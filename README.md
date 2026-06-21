@@ -4,18 +4,20 @@
 
 # Breezil-Packets
 
-**Fully typed Minecraft 1.8.9 packet definitions and shared protocol interfaces for the Breezil ecosystem.**
+**Fully typed Minecraft protocol packet definitions for the Breezil ecosystem. Minecraft 1.8.9 is ready today, with every version on the way.**
 
-[![Build](https://img.shields.io/github/actions/workflow/status/Breezil/Breezil-Packets/ci.yml?branch=main&style=flat-square)](https://github.com/Breezil/Breezil-Packets/actions)
-[![Release](https://img.shields.io/github/v/release/Breezil/Breezil-Packets?style=flat-square)](https://github.com/Breezil/Breezil-Packets/releases)
+[![npm](https://img.shields.io/npm/v/@breezil/packet-defs?style=flat-square&logo=npm)](https://www.npmjs.com/package/@breezil/packet-defs)
+[![Docs](https://img.shields.io/github/actions/workflow/status/Breezil/Breezil-Packets/docs.yml?branch=main&style=flat-square&label=docs)](https://breezil.github.io/Breezil-Packets/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![Discord](https://img.shields.io/discord/1460052855389159527?style=flat-square&logo=discord&logoColor=white&label=discord)](https://discord.gg/wYs3cnsYeX)
+[![Discord](https://img.shields.io/discord/1460052855389159527?style=flat-square&logo=discord&logoColor=white&label=discord)](https://discord.gg/7SxbNMYQNa)
 
+[Documentation](https://breezil.github.io/Breezil-Packets/)
+&nbsp;&nbsp;|&nbsp;&nbsp;
 [Report a bug](https://github.com/Breezil/Breezil-Packets/issues/new?labels=bug)
 &nbsp;&nbsp;|&nbsp;&nbsp;
 [Request a feature](https://github.com/Breezil/Breezil-Packets/issues/new?labels=enhancement)
 &nbsp;&nbsp;|&nbsp;&nbsp;
-[Join the Discord](https://discord.gg/wYs3cnsYeX)
+[Join the Discord](https://discord.gg/7SxbNMYQNa)
 
 </div>
 
@@ -24,29 +26,31 @@
 ## Table of Contents
 
 1. [About](#about)
-2. [Features](#features)
-3. [Tech Stack](#tech-stack)
-4. [Getting Started](#getting-started)
+2. [Versions](#versions)
+3. [Features](#features)
+4. [Tech Stack](#tech-stack)
+5. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
    - [Installation](#installation)
-5. [Quick Start](#quick-start)
-6. [API Reference](#api-reference)
-7. [Project Structure](#project-structure)
-8. [Deployment](#deployment)
-9. [Roadmap](#roadmap)
-10. [Contributing](#contributing)
-11. [Code of Conduct](#code-of-conduct)
-12. [License](#license)
-13. [Support &amp; Community](#support--community)
-14. [Acknowledgements](#acknowledgements)
+6. [Quick Start](#quick-start)
+7. [Documentation](#documentation)
+8. [API Reference](#api-reference)
+9. [Project Structure](#project-structure)
+10. [Releases and Deployment](#releases-and-deployment)
+11. [Roadmap](#roadmap)
+12. [Contributing](#contributing)
+13. [Code of Conduct](#code-of-conduct)
+14. [License](#license)
+15. [Support and Community](#support-and-community)
+16. [Acknowledgements](#acknowledgements)
 
 ---
 
 ## About
 
-Breezil-Packets is a fully open-source TypeScript library that describes every Minecraft 1.8.9 (protocol version 47) packet as a typed interface, organized by protocol state and direction. It gives the rest of the Breezil ecosystem one shared, honest source of truth for what is on the wire.
+Breezil-Packets describes Minecraft protocol packets as typed TypeScript interfaces, organized by protocol state and direction. It gives the rest of the Breezil ecosystem one shared, honest source of truth for what is on the wire.
 
-It helps tools like the [Breezil proxy](https://github.com/Breezil/Breezil-Proxy) decode raw network frames by numeric packet id straight into typed, well-documented shapes, so you never have to guess what a field means or shape it by hand. The package ships type definitions plus a handful of helper enums and constants, with no runtime protocol logic of its own.
+Today it ships complete coverage of Minecraft 1.8.9 (protocol version 47). The goal is to bring every Minecraft version under the same roof, each one fully typed and documented the same way 1.8.9 is. The package is pure type definitions plus a handful of helper enums and constants, with no runtime protocol logic of its own, so tools like the [Breezil proxy](https://github.com/Breezil/Breezil-Proxy) can decode raw network frames by numeric packet id straight into typed, well documented shapes.
 
 > Part of [**Breezil**](https://github.com/Breezil), an open-source org building clean,
 > well-documented projects, tools, and bots. No closed blobs, no sketchy builds. Every line
@@ -56,12 +60,22 @@ It helps tools like the [Breezil proxy](https://github.com/Breezil/Breezil-Proxy
 > anything it integrates with. We do not ship anything designed to abuse a platform or get
 > accounts banned.
 
+## Versions
+
+| Minecraft version | Protocol | Status    |
+| ----------------- | -------- | --------- |
+| 1.8.9             | 47       | Available |
+| Other versions    | various  | Planned   |
+
+Every new version targets the same bar: complete coverage of all states and directions, every packet a documented interface, every field annotated with the values you can expect.
+
 ## Features
 
 - 🧩 Complete packet coverage for every 1.8.9 protocol state: handshake, status, login, and play (clientbound and serverbound)
 - 🏷️ Every packet is a documented TypeScript interface, with per-field notes on the values you can expect
 - 🔢 Built for id-based decoding, so consumers like the proxy map a numeric packet id to a typed shape
 - 🛰️ Bonus coverage for custom Hypixel ModAPI packets and channels
+- 🧭 Designed to grow across Minecraft versions, each one held to the same complete, documented standard
 - 📦 Ships as a typed library, with `.d.ts` declarations published alongside the build
 
 ## Tech Stack
@@ -126,70 +140,43 @@ const handshake: SetProtocolServerbound = {
 
 Because this package is type definitions, the imports above add no runtime weight. You pair them with whatever encoder or decoder you already use, and the shapes keep both sides honest.
 
+## Documentation
+
+The full reference and guides live at **[breezil.github.io/Breezil-Packets](https://breezil.github.io/Breezil-Packets/)**.
+
+This README covers the essentials. The docs site is the complete reference: every packet across every state and direction, with its numeric id and every field documented. Start there when you need the exact shape of something on the wire.
+
+| Page                                                                               | What is inside                                |
+| ---------------------------------------------------------------------------------- | --------------------------------------------- |
+| [Getting Started](https://breezil.github.io/Breezil-Packets/guide/getting-started) | Install, import, and use the type definitions |
+| [API Reference](https://breezil.github.io/Breezil-Packets/api/)                    | The complete, per-packet, per-field reference |
+
 ## API Reference
 
-This package exports interfaces, enums, and a few constants, all from the single entry point `@breezil/packet-defs`. There are no functions or classes to call. Everything is grouped by protocol state and direction so it lines up with how packets actually flow.
+Everything is exported from the single entry point `@breezil/packet-defs`. There are no functions or classes to call, only interfaces, enums, and a few constants, grouped by protocol state and direction so they line up with how packets flow on the wire.
 
-### Export categories
-
-| Category                         | What's inside                                                                             |
-| -------------------------------- | ----------------------------------------------------------------------------------------- |
-| Handshake                        | `SetProtocolServerbound`, `LegacyServerListPingServerbound` and helpers                   |
-| Login                            | `LoginStartServerbound`, `LoginSuccessClientbound`, `EncryptionBegin*` and more           |
-| Status                           | `ServerInfoClientbound`, `PingClientbound`, `ServerStatusResponse` and more               |
-| Hypixel (ModAPI)                 | `HypixelLocationPacket`, `HypixelPartyInfoPacket`, `HYPIXEL_CHANNELS` and more            |
-| Play / clientbound — connection  | `KeepAliveClientbound`, `LoginClientbound`, `RespawnClientbound` and more                 |
-| Play / clientbound — player      | `PositionClientbound`, `UpdateHealthClientbound`, `AbilitiesClientbound` and more         |
-| Play / clientbound — chat & UI   | `ChatClientbound`, `TitleClientbound`, `PlayerInfoClientbound` and more                   |
-| Play / clientbound — scoreboard  | `ScoreboardObjectiveClientbound`, `ScoreboardTeamClientbound` and more                    |
-| Play / clientbound — entity      | `SpawnEntityClientbound`, `EntityTeleportClientbound`, `EntityMetadata` and more          |
-| Play / clientbound — inventory   | `OpenWindowClientbound`, `SetSlotClientbound`, `WindowItemsClientbound` and more          |
-| Play / clientbound — world       | `MapChunkClientbound`, `BlockChangeClientbound`, `ExplosionClientbound` and more          |
-| Play / serverbound — connection  | `KeepAliveServerbound`, `SettingsServerbound`, `CustomPayloadServerbound` and more        |
-| Play / serverbound — movement    | `PositionServerbound`, `LookServerbound`, `PositionLookServerbound` and more              |
-| Play / serverbound — interaction | `UseEntityServerbound`, `BlockDigServerbound`, `BlockPlaceServerbound` and more           |
-| Play / serverbound — inventory   | `WindowClickServerbound`, `SetCreativeSlotServerbound`, `EnchantItemServerbound` and more |
-| Play / serverbound — chat        | `ChatServerbound`, `TabCompleteServerbound`, `UpdateSignServerbound`                      |
+| Category                       | What is inside                                                                             |
+| ------------------------------ | ------------------------------------------------------------------------------------------ |
+| Handshake                      | `SetProtocolServerbound`, `LegacyServerListPingServerbound`, and helpers                   |
+| Login                          | `LoginStartServerbound`, `LoginSuccessClientbound`, `EncryptionBegin*`, and more           |
+| Status                         | `ServerInfoClientbound`, `PingClientbound`, `ServerStatusResponse`, and more               |
+| Hypixel (ModAPI)               | `HypixelLocationPacket`, `HypixelPartyInfoPacket`, `HYPIXEL_CHANNELS`, and more            |
+| Play, clientbound, connection  | `KeepAliveClientbound`, `LoginClientbound`, `RespawnClientbound`, and more                 |
+| Play, clientbound, player      | `PositionClientbound`, `UpdateHealthClientbound`, `AbilitiesClientbound`, and more         |
+| Play, clientbound, chat and UI | `ChatClientbound`, `TitleClientbound`, `PlayerInfoClientbound`, and more                   |
+| Play, clientbound, scoreboard  | `ScoreboardObjectiveClientbound`, `ScoreboardTeamClientbound`, and more                    |
+| Play, clientbound, entity      | `SpawnEntityClientbound`, `EntityTeleportClientbound`, `EntityMetadata`, and more          |
+| Play, clientbound, inventory   | `OpenWindowClientbound`, `SetSlotClientbound`, `WindowItemsClientbound`, and more          |
+| Play, clientbound, world       | `MapChunkClientbound`, `BlockChangeClientbound`, `ExplosionClientbound`, and more          |
+| Play, serverbound, connection  | `KeepAliveServerbound`, `SettingsServerbound`, `CustomPayloadServerbound`, and more        |
+| Play, serverbound, movement    | `PositionServerbound`, `LookServerbound`, `PositionLookServerbound`, and more              |
+| Play, serverbound, interaction | `UseEntityServerbound`, `BlockDigServerbound`, `BlockPlaceServerbound`, and more           |
+| Play, serverbound, inventory   | `WindowClickServerbound`, `SetCreativeSlotServerbound`, `EnchantItemServerbound`, and more |
+| Play, serverbound, chat        | `ChatServerbound`, `TabCompleteServerbound`, `UpdateSignServerbound`                       |
 
 Many categories also export supporting enums and value unions (for example `NextProtocolState`, `ChatMessagePosition`, `DiggingStatus`, `ScoreboardScoreAction`) and shared structures reused across packets, like `Slot`, `Position`, and `PlayerProperty`.
 
-### Representative interfaces
-
-Each packet interface carries its numeric id and a description in the doc comment, and every field documents the values you can expect. For example, the first packet a client sends:
-
-```ts
-/**
- * Packet: SetProtocol
- * ID: 0x00
- */
-export interface SetProtocolServerbound {
-  /** The protocol version used by the client. 47 for Minecraft 1.8.9. */
-  protocolVersion: number;
-  /** Server hostname used to connect. */
-  serverHost: string;
-  /** Server port used to connect. 0-65535. */
-  serverPort: number;
-  /** Next state to transition to. 1 (Status), 2 (Login). */
-  nextState: NextProtocolState;
-}
-```
-
-Some fields carry raw bytes and use Node's `Buffer` type, which is why the package depends on `@types/node`:
-
-```ts
-/**
- * Packet: EncryptionBegin (Clientbound)
- * ID: 0x01
- */
-export interface EncryptionBeginClientbound {
-  /** Server ID string. Empty for 1.7+ servers. */
-  serverId: string;
-  /** Server's public key, ASN.1 DER encoded. */
-  publicKey: Buffer;
-  /** Random verify token bytes. */
-  verifyToken: Buffer;
-}
-```
+For the complete list, with every interface, its numeric id, and every field documented, see the [full API Reference](https://breezil.github.io/Breezil-Packets/api/).
 
 ## Project Structure
 
@@ -202,7 +189,7 @@ Breezil-Packets/
 │  ├─ status/                   # Server list ping / status
 │  ├─ hypixel/                  # Custom Hypixel ModAPI packets and channels
 │  └─ play/
-│     ├─ clientbound/           # Server -> client packets
+│     ├─ clientbound/           # Server to client packets
 │     │  ├─ connection/
 │     │  ├─ player/
 │     │  ├─ chat/
@@ -210,39 +197,41 @@ Breezil-Packets/
 │     │  ├─ entity/
 │     │  ├─ inventory/
 │     │  └─ world/
-│     └─ serverbound/           # Client -> server packets
+│     └─ serverbound/           # Client to server packets
 │        ├─ connection/
 │        ├─ movement/
 │        ├─ interaction/
 │        ├─ inventory/
 │        └─ chat/
-├─ docs/                        # Logo and assets
+├─ docs/                        # VitePress docs site, logo, assets
 └─ package.json
 ```
 
 Each leaf folder typically holds an `index.ts` with the packet interfaces and, where needed, a `types.ts` with the enums and value unions those packets reference.
 
-## Deployment
+## Releases and Deployment
 
-Breezil-Packets is published to npm as [`@breezil/packet-defs`](https://www.npmjs.com/package/@breezil/packet-defs). Releases follow [Semantic Versioning](https://semver.org).
+Two things ship automatically from this repo, so there is no manual deploy step.
 
-```bash
-# Build the type declarations and JS output
-npm run build
+**Documentation.** The docs site rebuilds and deploys to GitHub Pages on every push to `main`, via [`.github/workflows/docs.yml`](.github/workflows/docs.yml). Merge to `main` and the site updates on its own.
 
-# Publish (maintainers)
-npm publish
-```
+**npm package.** Publishing to npm is automated by [`.github/workflows/publish.yml`](.github/workflows/publish.yml), which runs when a GitHub Release is published. Releases follow [Semantic Versioning](https://semver.org). To cut one:
 
-See the [Releases](https://github.com/Breezil/Breezil-Packets/releases) page for changelogs.
+1. Bump `version` in `package.json` (for example `1.0.1`).
+2. Commit that change to `main`.
+3. On GitHub, go to **Releases**, choose **Draft a new release**, create a tag like `v1.0.1`, write the notes, and click **Publish release**.
+
+Publishing the release triggers the workflow, which builds the package and runs `npm publish` with provenance. The first publish is done once by a maintainer (`npm publish` locally) so the package exists, after which the Trusted Publisher setup lets the Action handle every release with no token to manage.
 
 ## Roadmap
 
-- [ ] Keep packet shapes in sync with the proxy's decoder as it evolves
-- [ ] Expand inline value documentation on the larger play packets
-- [ ] Broaden Hypixel ModAPI packet coverage
+- [x] Complete Minecraft 1.8.9 (protocol version 47) coverage, all states and directions, fully typed and documented
+- [ ] Additional Minecraft versions, each given the same complete, per-field treatment
+- [ ] Per-version exports so you can pin the protocol you target
+- [ ] Wider Hypixel ModAPI packet coverage
+- [ ] Keep packet shapes in sync with the Breezil proxy decoder as it evolves
 
-Have an idea? [Open a feature request](https://github.com/Breezil/Breezil-Packets/issues/new?labels=enhancement).
+Want a particular version prioritized? [Open a feature request](https://github.com/Breezil/Breezil-Packets/issues/new?labels=enhancement).
 
 ## Contributing
 
@@ -267,9 +256,9 @@ agree to uphold it. Be kind, be welcoming.
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for the full text.
 
-## Support &amp; Community
+## Support and Community
 
-- 💬 **Discord:** [Join the Breezil community](https://discord.gg/wYs3cnsYeX)
+- 💬 **Discord:** [Join the Breezil community](https://discord.gg/7SxbNMYQNa)
 - 🐛 **Issues:** [github.com/Breezil/Breezil-Packets/issues](https://github.com/Breezil/Breezil-Packets/issues)
 - 💡 **Discussions:** [github.com/Breezil/Breezil-Packets/discussions](https://github.com/Breezil/Breezil-Packets/discussions)
 
@@ -277,7 +266,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for the full tex
 
 - The Minecraft 1.8.9 protocol (version 47) as documented by the wiki.vg community
 - [`minecraft-protocol`](https://github.com/PrismarineJS/node-minecraft-protocol) for protocol reference
-- Everyone in the [Breezil Discord](https://discord.gg/wYs3cnsYeX)
+- Everyone in the [Breezil Discord](https://discord.gg/7SxbNMYQNa)
 
 ---
 

@@ -1,6 +1,6 @@
 # Getting Started
 
-`@breezil/packet-defs` is a fully typed description of every Minecraft 1.8.9 (protocol version 47) packet, organized by protocol state and direction. It gives the Breezil ecosystem one shared, honest source of truth for what is on the wire.
+`@breezil/packet-defs` is a fully typed description of Minecraft protocol packets, organized by protocol state and direction. It gives the Breezil ecosystem one shared, honest source of truth for what is on the wire. Minecraft 1.8.9 (protocol version 47) is complete and available today, and the goal is to bring every Minecraft version under the same roof with the same per-field treatment.
 
 ## Install
 

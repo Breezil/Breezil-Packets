@@ -25,7 +25,7 @@ export default {
     ],
     socialLinks: [
       { icon: "github", link: "https://github.com/Breezil/Breezil-Packets" },
-      { icon: "discord", link: "https://discord.gg/wYs3cnsYeX" },
+      { icon: "discord", link: "https://discord.gg/7SxbNMYQNa" },
     ],
     search: { provider: "local" },
     editLink: {

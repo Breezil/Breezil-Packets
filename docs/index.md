@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: "@breezil/packet-defs"
-  text: "Typed Minecraft 1.8.9 packets"
-  tagline: "Fully typed packet definitions and shared protocol interfaces for the Breezil ecosystem."
+  text: "Typed Minecraft protocol packets"
+  tagline: "Fully typed packet definitions for the Breezil ecosystem. Minecraft 1.8.9 is ready today, with every version on the way."
   image:
     src: /logo.png
     alt: packet-defs
@@ -21,8 +21,8 @@ hero:
 
 features:
   - icon: 🧩
-    title: Typed 1.8.9 packet defs
-    details: Every Minecraft 1.8.9 (protocol version 47) packet described as a documented TypeScript interface, with per-field notes on the values you can expect.
+    title: Typed packet defs
+    details: Every Minecraft 1.8.9 (protocol version 47) packet described as a documented TypeScript interface, with per-field notes on the values you can expect. 1.8.9 is complete today, and the same treatment is planned for every Minecraft version.
   - icon: 🗂️
     title: Organized by state and direction
     details: Definitions are grouped by protocol state and direction (handshake, login, status, play clientbound and serverbound) so they line up with how packets flow on the wire.
