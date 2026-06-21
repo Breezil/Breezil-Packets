@@ -1,0 +1,52 @@
+{
+  "name": "@breezil/packet-defs",
+  "version": "1.0.0",
+  "description": "Minecraft 1.8.9 packet type definitions and shared protocol interfaces.",
+  "keywords": [
+    "breezil",
+    "minecraft",
+    "packets",
+    "protocol",
+    "1.8.9",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Breezil",
+  "homepage": "https://github.com/Breezil/Breezil-Packets#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Breezil/Breezil-Packets.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Breezil/Breezil-Packets/issues"
+  },
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "vitepress": "^1.6.3"
+  },
+  "overrides": {
+    "esbuild": "^0.25.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
+
