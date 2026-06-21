@@ -225,11 +225,10 @@ Publishing the release triggers the workflow, which builds the package and runs 
 
 ## Roadmap
 
-- [x] Complete Minecraft 1.8.9 (protocol version 47) coverage, all states and directions, fully typed and documented
-- [ ] Additional Minecraft versions, each given the same complete, per-field treatment
-- [ ] Per-version exports so you can pin the protocol you target
-- [ ] Wider Hypixel ModAPI packet coverage
-- [ ] Keep packet shapes in sync with the Breezil proxy decoder as it evolves
+Minecraft 1.8.9 (protocol version 47) is complete today: every state and direction, fully typed and documented. From there:
+
+- [ ] Add more Minecraft versions, each held to the same complete, per-field standard
+- [ ] Per-version exports, so you can pin the exact protocol version you target
 
 Want a particular version prioritized? [Open a feature request](https://github.com/Breezil/Breezil-Packets/issues/new?labels=enhancement).
 
