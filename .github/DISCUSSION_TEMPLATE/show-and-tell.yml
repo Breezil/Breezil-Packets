@@ -1,0 +1,28 @@
+# ───────────────────────────────────────────────────────────────────
+#  BREEZIL - Show and tell discussion form
+#  Path in the org .github repo:  .github/DISCUSSION_TEMPLATE/show-and-tell.yml
+# ───────────────────────────────────────────────────────────────────
+title: "[Show and tell]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Built something with a Breezil tool? Show it off. We love seeing what people make. 🎉
+  - type: textarea
+    id: what
+    attributes:
+      label: What did you make?
+      placeholder: Describe your project, mod, or setup.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      placeholder: Repo, video, screenshot, or live demo.
+  - type: input
+    id: built-with
+    attributes:
+      label: Which Breezil tools did you use?
+      placeholder: "e.g. Breezil-Proxy, Breezil-Hypixel-Api"
+

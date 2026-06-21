@@ -244,11 +244,11 @@ Contributions are welcome and genuinely appreciated, first timers included. 💙
 
 New to the project? Look for issues labeled
 [`good first issue`](https://github.com/Breezil/Breezil-Packets/labels/good%20first%20issue).
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
+See the [Breezil contributing guide](https://github.com/Breezil/.github/blob/main/CONTRIBUTING.md) for the full guide.
 
 ## Code of Conduct
 
-This project follows the Breezil [Code of Conduct](CODE_OF_CONDUCT.md). By taking part you
+This project follows the Breezil [Code of Conduct](https://github.com/Breezil/.github/blob/main/CODE_OF_CONDUCT.md). By taking part you
 agree to uphold it. Be kind, be welcoming.
 
 ## License
