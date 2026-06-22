@@ -1,6 +1,6 @@
 {
   "name": "@breezil/packet-defs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Typed Minecraft protocol packet definitions and shared interfaces. Minecraft 1.8.9 is available now, with every version planned.",
   "keywords": [
     "breezil",
