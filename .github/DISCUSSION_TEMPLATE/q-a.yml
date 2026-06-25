@@ -1,6 +1,6 @@
 # ───────────────────────────────────────────────────────────────────
 #  BREEZIL - Q&A discussion form
-#  Path in the org .github repo:  .github/DISCUSSION_TEMPLATE/q-a.yml
+#  Path (per repo):  .github/DISCUSSION_TEMPLATE/q-a.yml
 #  File name must match the category slug ("q-a").
 # ───────────────────────────────────────────────────────────────────
 title: "[Question]: "

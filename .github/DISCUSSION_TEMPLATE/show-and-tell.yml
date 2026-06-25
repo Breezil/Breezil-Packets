@@ -1,18 +1,18 @@
 # ───────────────────────────────────────────────────────────────────
-#  BREEZIL - Show and tell discussion form
-#  Path in the org .github repo:  .github/DISCUSSION_TEMPLATE/show-and-tell.yml
+#  BREEZIL - Show and tell discussion form (per repo; tailor per project)
+#  Path:  .github/DISCUSSION_TEMPLATE/show-and-tell.yml  (file name = category slug)
 # ───────────────────────────────────────────────────────────────────
 title: "[Show and tell]: "
 body:
   - type: markdown
     attributes:
       value: |
-        Built something with a Breezil tool? Show it off. We love seeing what people make. 🎉
+        Built something with `@breezil/packet-defs`? Show it off. We love seeing what people make. 🎉
   - type: textarea
     id: what
     attributes:
-      label: What did you make?
-      placeholder: Describe your project, mod, or setup.
+      label: What did you build?
+      placeholder: A proxy, parser, bot, mod, or tool that uses the packet definitions.
     validations:
       required: true
   - type: input
@@ -21,8 +21,8 @@ body:
       label: Link
       placeholder: Repo, video, screenshot, or live demo.
   - type: input
-    id: built-with
+    id: version
     attributes:
-      label: Which Breezil tools did you use?
-      placeholder: "e.g. Breezil-Proxy, Breezil-Hypixel-Api"
+      label: Minecraft version / protocol
+      placeholder: "e.g. 1.8.9 (protocol 47)"
 
