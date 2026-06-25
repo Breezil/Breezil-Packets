@@ -13,9 +13,9 @@
 
 [Documentation](https://breezil.github.io/Breezil-Packets/)
 &nbsp;&nbsp;|&nbsp;&nbsp;
-[Report a bug](https://github.com/Breezil/Breezil-Packets/issues/new?labels=bug)
+[Report a bug](https://github.com/Breezil/Breezil-Packets/issues/new?template=bug_report.yml)
 &nbsp;&nbsp;|&nbsp;&nbsp;
-[Request a feature](https://github.com/Breezil/Breezil-Packets/issues/new?labels=enhancement)
+[Request a feature](https://github.com/Breezil/Breezil-Packets/issues/new?template=feature_request.yml)
 &nbsp;&nbsp;|&nbsp;&nbsp;
 [Join the Discord](https://discord.gg/7SxbNMYQNa)
 
@@ -230,7 +230,7 @@ Minecraft 1.8.9 (protocol version 47) is complete today: every state and directi
 - [ ] Add more Minecraft versions, each held to the same complete, per-field standard
 - [ ] Per-version exports, so you can pin the exact protocol version you target
 
-Want a particular version prioritized? [Open a feature request](https://github.com/Breezil/Breezil-Packets/issues/new?labels=enhancement).
+Want a particular version prioritized? [Open a feature request](https://github.com/Breezil/Breezil-Packets/issues/new?template=feature_request.yml).
 
 ## Contributing
 
