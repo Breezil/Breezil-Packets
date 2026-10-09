@@ -75,6 +75,7 @@ Every new version targets the same bar: complete coverage of all states and dire
 - 🏷️ Every packet is a documented TypeScript interface, with per-field notes on the values you can expect
 - 🔢 Built for id-based decoding, so consumers like the proxy map a numeric packet id to a typed shape
 - 🛰️ Bonus coverage for custom Hypixel ModAPI packets and channels
+- 🔣 Named protocol constants for the values inside packets (entity metadata indexes, block faces, window click modes, game state reasons, and more), with `namesOf` to turn a value back into its name
 - 🧭 Designed to grow across Minecraft versions, each one held to the same complete, documented standard
 - 📦 Ships as a typed library, with `.d.ts` declarations published alongside the build
 
@@ -138,7 +139,7 @@ const handshake: SetProtocolServerbound = {
 };
 ```
 
-Because this package is type definitions, the imports above add no runtime weight. You pair them with whatever encoder or decoder you already use, and the shapes keep both sides honest.
+Because these imports are types only, they add no runtime weight. Import the protocol constants by value when you want names for the numbers inside packets, such as `BLOCK_FACES.none` or `ENTITY_METADATA.health`. You pair them with whatever encoder or decoder you already use, and the shapes keep both sides honest.
 
 ## Documentation
 
@@ -153,7 +154,7 @@ This README covers the essentials. The docs site is the complete reference: ever
 
 ## API Reference
 
-Everything is exported from the single entry point `@breezil/packet-defs`. There are no functions or classes to call, only interfaces, enums, and a few constants, grouped by protocol state and direction so they line up with how packets flow on the wire.
+Everything is exported from the single entry point `@breezil/packet-defs`. There are no classes and no protocol logic, only interfaces, enums, constant tables, and the small `namesOf` helper, grouped by protocol state and direction so they line up with how packets flow on the wire.
 
 | Category                       | What is inside                                                                             |
 | ------------------------------ | ------------------------------------------------------------------------------------------ |
@@ -173,6 +174,7 @@ Everything is exported from the single entry point `@breezil/packet-defs`. There
 | Play, serverbound, interaction | `UseEntityServerbound`, `BlockDigServerbound`, `BlockPlaceServerbound`, and more           |
 | Play, serverbound, inventory   | `WindowClickServerbound`, `SetCreativeSlotServerbound`, `EnchantItemServerbound`, and more |
 | Play, serverbound, chat        | `ChatServerbound`, `TabCompleteServerbound`, `UpdateSignServerbound`                       |
+| Play, protocol constants       | `ENTITY_METADATA`, `BLOCK_FACES`, `WINDOW_CLICK_MODES`, `GAME_MODES`, `namesOf`, and more  |
 
 Many categories also export supporting enums and value unions (for example `NextProtocolState`, `ChatMessagePosition`, `DiggingStatus`, `ScoreboardScoreAction`) and shared structures reused across packets, like `Slot`, `Position`, and `PlayerProperty`.
 
@@ -189,6 +191,7 @@ Breezil-Packets/
 │  ├─ status/                   # Server list ping / status
 │  ├─ hypixel/                  # Custom Hypixel ModAPI packets and channels
 │  └─ play/
+│     ├─ constants.ts           # Protocol 47 value tables and namesOf
 │     ├─ clientbound/           # Server to client packets
 │     │  ├─ connection/
 │     │  ├─ player/
@@ -272,4 +275,3 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for the full tex
 <div align="center">
 <sub>Built with 💙 by <a href="https://github.com/Breezil">Breezil</a>.</sub>
 </div>
-
