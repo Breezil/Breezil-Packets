@@ -12,7 +12,7 @@ Node.js `>=20` and npm `>=10` are recommended.
 
 ## Usage
 
-This package is type definitions, not runtime logic. There are no functions or classes to call. You import the interfaces you need and use them to type the packets you decode or build, then pair them with whatever encoder or decoder you already use.
+This package is type definitions, not runtime logic. You import the interfaces you need and use them to type the packets you decode or build, then pair them with whatever encoder or decoder you already use.
 
 Because the imports are types, they add no runtime weight to your bundle.
 
@@ -34,6 +34,14 @@ const handshake: SetProtocolServerbound = {
   serverPort: 25565,
   nextState: 2, // Login
 };
+```
+
+For the numbers inside packets, import the protocol constants by value: they are plain tables such as `BLOCK_FACES` and `ENTITY_METADATA`, plus `namesOf` to turn a value back into its name.
+
+```ts
+import { GAME_MODES, namesOf } from "@breezil/packet-defs";
+
+namesOf(GAME_MODES).get(3); // "spectator"
 ```
 
 Everything is exported from the single entry point `@breezil/packet-defs`. Head to the [API Reference](/api/) to see how the exports are grouped.

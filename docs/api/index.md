@@ -1,6 +1,6 @@
 # API Reference
 
-`@breezil/packet-defs` is a pure type-definition package: a complete, fully documented set of TypeScript interfaces, type unions, and constants describing the Minecraft protocol packet shapes. There are no runtime functions or classes here, only types. Everything is re-exported from the single entry point `@breezil/packet-defs`, so a single import gives you the whole surface:
+`@breezil/packet-defs` is a type-definition package: a complete, fully documented set of TypeScript interfaces, type unions, and constants describing the Minecraft protocol packet shapes. There is no protocol logic here; the only runtime values are plain constant tables (`HYPIXEL_CHANNELS` and the [protocol constants](#protocol-constants)) and the small `namesOf` lookup helper. Everything is re-exported from the single entry point `@breezil/packet-defs`, so a single import gives you the whole surface:
 
 ```ts
 import {
@@ -10,6 +10,7 @@ import {
   Slot,
   Position,
   HYPIXEL_CHANNELS,
+  ENTITY_METADATA,
 } from "@breezil/packet-defs";
 ```
 
@@ -3687,6 +3688,526 @@ export interface UpdateSignServerbound {
 }
 ```
 
+## Protocol constants
+
+Exported from `src/play/constants.ts`. Packets name their fields; these tables name the values inside them, so code never has to know that entity metadata 6 is health or that a block face of 255 means "no block". Every table is a plain `as const` object of numbers, so each value keeps its literal type, and they describe protocol 47 (1.8.9) only.
+
+```ts
+import { BLOCK_FACES, ENTITY_METADATA } from "@breezil/packet-defs";
+import type {
+  BlockPlaceServerbound,
+  EntityMetadataClientbound,
+} from "@breezil/packet-defs";
+
+// A use-item click, not a block placement.
+function isUseItem(packet: BlockPlaceServerbound): boolean {
+  return packet.direction === BLOCK_FACES.none;
+}
+
+function healthOf(packet: EntityMetadataClientbound): number | undefined {
+  return packet.metadata.find((entry) => entry.key === ENTITY_METADATA.health)
+    ?.value;
+}
+```
+
+### PROTOCOL_UNITS
+
+How the protocol encodes positions, motion and angles.
+
+| Name                    | Value                 | Notes                                                       |
+| ----------------------- | --------------------- | ----------------------------------------------------------- |
+| `fixedPointPerBlock`    | `32`                  | Entity positions are fixed-point in 1/32 of a block.        |
+| `velocityUnitsPerBlock` | `8000`                | Entity velocities are in 1/8000 of a block a tick.          |
+| `degreesPerByteAngle`   | `360 / 256` (1.40625) | A rotation byte covers a whole turn in 256 steps.           |
+| `soundUnitsPerBlock`    | `8`                   | Named sound positions are in 1/8 of a block.                |
+| `soundPitchUnit`        | `63`                  | A named sound's pitch is a byte where 63 is normal.         |
+| `cursorUnitsPerBlock`   | `16`                  | Where a block click lands on the face, in 1/16 of the face. |
+
+### OBJECT_TYPES
+
+`spawn_entity` (object) type ids. Mobs are numbered apart, in `spawn_entity_living`.
+
+| Name            | Value | Notes |
+| --------------- | ----- | ----- |
+| `boat`          | `1`   |       |
+| `item`          | `2`   |       |
+| `minecart`      | `10`  |       |
+| `primedTnt`     | `50`  |       |
+| `enderCrystal`  | `51`  |       |
+| `arrow`         | `60`  |       |
+| `snowball`      | `61`  |       |
+| `egg`           | `62`  |       |
+| `fireball`      | `63`  |       |
+| `smallFireball` | `64`  |       |
+| `enderPearl`    | `65`  |       |
+| `witherSkull`   | `66`  |       |
+| `fallingBlock`  | `70`  |       |
+| `itemFrame`     | `71`  |       |
+| `eyeOfEnder`    | `72`  |       |
+| `potion`        | `73`  |       |
+| `expBottle`     | `75`  |       |
+| `firework`      | `76`  |       |
+| `leashKnot`     | `77`  |       |
+| `armorStand`    | `78`  |       |
+| `fishingHook`   | `90`  |       |
+
+### WINDOW_IDS
+
+Window ids with a meaning of their own in `set_slot` and `window_items`.
+
+| Name              | Value | Notes                                   |
+| ----------------- | ----- | --------------------------------------- |
+| `playerInventory` | `0`   | Your own inventory, open or not.        |
+| `cursor`          | `-1`  | With slot -1: the stack on your cursor. |
+
+### PLAYER_INVENTORY_SLOTS
+
+Slots of your own inventory window (window 0).
+
+| Name             | Value | Notes |
+| ---------------- | ----- | ----- |
+| `craftingResult` | `0`   |       |
+| `craftingFirst`  | `1`   |       |
+| `helmet`         | `5`   |       |
+| `chestplate`     | `6`   |       |
+| `leggings`       | `7`   |       |
+| `boots`          | `8`   |       |
+| `mainFirst`      | `9`   |       |
+| `hotbarFirst`    | `36`  |       |
+
+### STEER_VEHICLE_FLAGS
+
+Bits of a `steer_vehicle` packet's jump byte.
+
+| Name      | Value      | Notes |
+| --------- | ---------- | ----- |
+| `jump`    | `0x01` (1) |       |
+| `unmount` | `0x02` (2) |       |
+
+### ENTITY_METADATA
+
+Entity metadata indexes (`DataWatcher`), by the entities that have them.
+
+| Name                | Value | Notes                                                                                          |
+| ------------------- | ----- | ---------------------------------------------------------------------------------------------- |
+| `flags`             | `0`   | Every entity.                                                                                  |
+| `air`               | `1`   | Every entity.                                                                                  |
+| `customName`        | `2`   | Every entity.                                                                                  |
+| `customNameVisible` | `3`   | Every entity.                                                                                  |
+| `silent`            | `4`   | Every entity.                                                                                  |
+| `health`            | `6`   | Living entities.                                                                               |
+| `potionColor`       | `7`   | Living entities.                                                                               |
+| `potionAmbient`     | `8`   | Living entities.                                                                               |
+| `arrowsInBody`      | `9`   | Living entities.                                                                               |
+| `noAi`              | `15`  | Living entities.                                                                               |
+| `skinParts`         | `10`  | Players.                                                                                       |
+| `hideCape`          | `16`  | Players.                                                                                       |
+| `absorption`        | `17`  | Players.                                                                                       |
+| `score`             | `18`  | Players.                                                                                       |
+| `item`              | `10`  | Dropped items.                                                                                 |
+| `armorStandFlags`   | `10`  | Armor stands: a bit field (`ARMOR_STAND_FLAGS`).                                               |
+| `ageableAge`        | `12`  | Ageable mobs (animals, villagers): the growing age, below 0 for a baby. Zombies: 1 for a baby. |
+| `skeletonType`      | `13`  | Skeletons: 0 normal, 1 wither skeleton.                                                        |
+| `slimeSize`         | `16`  | Slimes and magma cubes: their size.                                                            |
+| `guardianFlags`     | `16`  | Guardians: a bit field (`GUARDIAN_FLAGS`).                                                     |
+
+Some indexes are shared by different entity kinds: 10 is `skinParts`, `item`, `armorStandFlags`; 16 is `hideCape`, `slimeSize`, `guardianFlags`. Read them against the entity's type.
+
+### ARMOR_STAND_FLAGS
+
+Bits of an armor stand's metadata 10.
+
+| Name          | Value       | Notes |
+| ------------- | ----------- | ----- |
+| `small`       | `0x01` (1)  |       |
+| `noGravity`   | `0x02` (2)  |       |
+| `arms`        | `0x04` (4)  |       |
+| `noBasePlate` | `0x08` (8)  |       |
+| `marker`      | `0x10` (16) |       |
+
+### GUARDIAN_FLAGS
+
+Bits of a guardian's metadata 16.
+
+| Name               | Value      | Notes |
+| ------------------ | ---------- | ----- |
+| `retractingSpikes` | `0x02` (2) |       |
+| `elder`            | `0x04` (4) |       |
+
+### HORIZONTAL_FACINGS
+
+Horizontal facings by the index paintings and item frames are sent with (`EnumFacing.getHorizontal`).
+
+| Name    | Value | Notes |
+| ------- | ----- | ----- |
+| `south` | `0`   |       |
+| `west`  | `1`   |       |
+| `north` | `2`   |       |
+| `east`  | `3`   |       |
+
+### ENTITY_FLAGS
+
+Bits of entity metadata 0.
+
+| Name        | Value       | Notes |
+| ----------- | ----------- | ----- |
+| `onFire`    | `0x01` (1)  |       |
+| `sneaking`  | `0x02` (2)  |       |
+| `sprinting` | `0x08` (8)  |       |
+| `usingItem` | `0x10` (16) |       |
+| `invisible` | `0x20` (32) |       |
+
+### SKIN_PARTS
+
+Bits of a player's skin parts (metadata 10).
+
+| Name          | Value       | Notes |
+| ------------- | ----------- | ----- |
+| `cape`        | `0x01` (1)  |       |
+| `jacket`      | `0x02` (2)  |       |
+| `leftSleeve`  | `0x04` (4)  |       |
+| `rightSleeve` | `0x08` (8)  |       |
+| `leftPants`   | `0x10` (16) |       |
+| `rightPants`  | `0x20` (32) |       |
+| `hat`         | `0x40` (64) |       |
+
+### ENTITY_STATUS
+
+`entity_status` values with a meaning for players and common mobs.
+
+| Name                 | Value | Notes |
+| -------------------- | ----- | ----- |
+| `hurt`               | `2`   |       |
+| `dead`               | `3`   |       |
+| `ironGolemArms`      | `4`   |       |
+| `tamingFailed`       | `6`   |       |
+| `tamingSucceeded`    | `7`   |       |
+| `wolfShaking`        | `8`   |       |
+| `eatingAccepted`     | `9`   |       |
+| `sheepEating`        | `10`  |       |
+| `ironGolemRose`      | `11`  |       |
+| `villagerHearts`     | `12`  |       |
+| `villagerAngry`      | `13`  |       |
+| `villagerHappy`      | `14`  |       |
+| `witchMagic`         | `15`  |       |
+| `zombieConverting`   | `16`  |       |
+| `fireworkExploding`  | `17`  |       |
+| `animalInLove`       | `18`  |       |
+| `squidRotation`      | `19`  |       |
+| `explosionParticles` | `20`  |       |
+| `guardianSound`      | `21`  |       |
+| `reducedDebugOn`     | `22`  |       |
+| `reducedDebugOff`    | `23`  |       |
+
+### ANIMATIONS
+
+`animation` (clientbound) values.
+
+| Name                  | Value | Notes |
+| --------------------- | ----- | ----- |
+| `swingArm`            | `0`   |       |
+| `takeDamage`          | `1`   |       |
+| `leaveBed`            | `2`   |       |
+| `eatFood`             | `3`   |       |
+| `criticalEffect`      | `4`   |       |
+| `magicCriticalEffect` | `5`   |       |
+
+### ENTITY_ACTIONS
+
+`entity_action` (serverbound) action ids.
+
+| Name             | Value | Notes |
+| ---------------- | ----- | ----- |
+| `startSneaking`  | `0`   |       |
+| `stopSneaking`   | `1`   |       |
+| `leaveBed`       | `2`   |       |
+| `startSprinting` | `3`   |       |
+| `stopSprinting`  | `4`   |       |
+| `horseJump`      | `5`   |       |
+| `openInventory`  | `6`   |       |
+
+### USE_ENTITY_KINDS
+
+`use_entity` (serverbound) mouse kinds.
+
+| Name         | Value | Notes |
+| ------------ | ----- | ----- |
+| `interact`   | `0`   |       |
+| `attack`     | `1`   |       |
+| `interactAt` | `2`   |       |
+
+### DIG_STATUS
+
+`block_dig` (serverbound) statuses.
+
+| Name             | Value | Notes |
+| ---------------- | ----- | ----- |
+| `started`        | `0`   |       |
+| `cancelled`      | `1`   |       |
+| `finished`       | `2`   |       |
+| `dropStack`      | `3`   |       |
+| `dropItem`       | `4`   |       |
+| `releaseUseItem` | `5`   |       |
+
+### BLOCK_FACES
+
+Block faces as `block_place` and `block_dig` carry them; 255 is "no block", using the held item.
+
+| Name    | Value | Notes |
+| ------- | ----- | ----- |
+| `down`  | `0`   |       |
+| `up`    | `1`   |       |
+| `north` | `2`   |       |
+| `south` | `3`   |       |
+| `west`  | `4`   |       |
+| `east`  | `5`   |       |
+| `none`  | `255` |       |
+
+### WINDOW_CLICK_MODES
+
+`window_click` modes.
+
+| Name          | Value | Notes |
+| ------------- | ----- | ----- |
+| `click`       | `0`   |       |
+| `shiftClick`  | `1`   |       |
+| `numberKey`   | `2`   |       |
+| `middleClick` | `3`   |       |
+| `drop`        | `4`   |       |
+| `drag`        | `5`   |       |
+| `doubleClick` | `6`   |       |
+
+### EQUIPMENT_SLOTS
+
+`entity_equipment` slots: what an entity holds, then its armour from the feet up.
+
+| Name         | Value | Notes |
+| ------------ | ----- | ----- |
+| `held`       | `0`   |       |
+| `boots`      | `1`   |       |
+| `leggings`   | `2`   |       |
+| `chestplate` | `3`   |       |
+| `helmet`     | `4`   |       |
+
+### WINDOW_CLICK_SLOTS
+
+Slots with a meaning of their own in `window_click`.
+
+| Name      | Value  | Notes                                                  |
+| --------- | ------ | ------------------------------------------------------ |
+| `outside` | `-999` | Clicked outside the window, dropping the cursor stack. |
+
+### GAME_MODES
+
+Game modes, as `login`, `respawn`, `player_info` and `game_state_change` carry them.
+
+| Name        | Value | Notes |
+| ----------- | ----- | ----- |
+| `survival`  | `0`   |       |
+| `creative`  | `1`   |       |
+| `adventure` | `2`   |       |
+| `spectator` | `3`   |       |
+
+### CLIENT_COMMANDS
+
+`client_command` (serverbound) actions.
+
+| Name                       | Value | Notes |
+| -------------------------- | ----- | ----- |
+| `performRespawn`           | `0`   |       |
+| `requestStats`             | `1`   |       |
+| `openInventoryAchievement` | `2`   |       |
+
+### ABILITY_FLAGS
+
+Bits of the `abilities` flags, both directions.
+
+| Name           | Value      | Notes |
+| -------------- | ---------- | ----- |
+| `invulnerable` | `0x01` (1) |       |
+| `flying`       | `0x02` (2) |       |
+| `allowFlying`  | `0x04` (4) |       |
+| `creative`     | `0x08` (8) |       |
+
+### POSITION_RELATIVE_FLAGS
+
+Bits of a server `position` (S08) packet's flags, each making its value relative.
+
+| Name    | Value       | Notes |
+| ------- | ----------- | ----- |
+| `x`     | `0x01` (1)  |       |
+| `y`     | `0x02` (2)  |       |
+| `z`     | `0x04` (4)  |       |
+| `yaw`   | `0x08` (8)  |       |
+| `pitch` | `0x10` (16) |       |
+
+### CHAT_POSITIONS
+
+Where a clientbound `chat` message is shown.
+
+| Name        | Value | Notes |
+| ----------- | ----- | ----- |
+| `chat`      | `0`   |       |
+| `system`    | `1`   |       |
+| `actionBar` | `2`   |       |
+
+### TITLE_ACTIONS
+
+`title` actions.
+
+| Name       | Value | Notes |
+| ---------- | ----- | ----- |
+| `title`    | `0`   |       |
+| `subtitle` | `1`   |       |
+| `times`    | `2`   |       |
+| `clear`    | `3`   |       |
+| `reset`    | `4`   |       |
+
+### GAME_STATE_REASONS
+
+`game_state_change` reasons. Rain is 1 to begin and 2 to end, as the 1.8 client handles them (the names are often given the other way round).
+
+| Name             | Value | Notes |
+| ---------------- | ----- | ----- |
+| `invalidBed`     | `0`   |       |
+| `beginRaining`   | `1`   |       |
+| `endRaining`     | `2`   |       |
+| `changeGameMode` | `3`   |       |
+| `enterCredits`   | `4`   |       |
+| `demoMessage`    | `5`   |       |
+| `arrowHitPlayer` | `6`   |       |
+| `fadeValue`      | `7`   |       |
+| `fadeTime`       | `8`   |       |
+| `mobAppearance`  | `10`  |       |
+
+### COMBAT_EVENTS
+
+`combat_event` events.
+
+| Name          | Value | Notes |
+| ------------- | ----- | ----- |
+| `enterCombat` | `0`   |       |
+| `endCombat`   | `1`   |       |
+| `entityDead`  | `2`   |       |
+
+### PLAYER_INFO_ACTIONS
+
+`player_info` actions.
+
+| Name                | Value | Notes |
+| ------------------- | ----- | ----- |
+| `addPlayer`         | `0`   |       |
+| `updateGameMode`    | `1`   |       |
+| `updateLatency`     | `2`   |       |
+| `updateDisplayName` | `3`   |       |
+| `removePlayer`      | `4`   |       |
+
+### TEAM_MODES
+
+`scoreboard_team` modes.
+
+| Name            | Value | Notes |
+| --------------- | ----- | ----- |
+| `create`        | `0`   |       |
+| `remove`        | `1`   |       |
+| `update`        | `2`   |       |
+| `addPlayers`    | `3`   |       |
+| `removePlayers` | `4`   |       |
+
+### TEAM_FRIENDLY_FLAGS
+
+Bits of a team's friendly flags.
+
+| Name                    | Value      | Notes |
+| ----------------------- | ---------- | ----- |
+| `friendlyFire`          | `0x01` (1) |       |
+| `seeFriendlyInvisibles` | `0x02` (2) |       |
+
+### RESOURCE_PACK_RESULTS
+
+`resource_pack_receive` results.
+
+| Name       | Value | Notes |
+| ---------- | ----- | ----- |
+| `loaded`   | `0`   |       |
+| `declined` | `1`   |       |
+| `failed`   | `2`   |       |
+| `accepted` | `3`   |       |
+
+### TILE_ENTITY_ACTIONS
+
+`tile_entity_data` actions: which block entity the NBT describes.
+
+| Name           | Value | Notes |
+| -------------- | ----- | ----- |
+| `mobSpawner`   | `1`   |       |
+| `commandBlock` | `2`   |       |
+| `beacon`       | `3`   |       |
+| `skull`        | `4`   |       |
+| `flowerPot`    | `5`   |       |
+| `banner`       | `6`   |       |
+
+### WORLD_EVENTS
+
+`world_event` (effect) ids, as the 1.8 client plays them (`RenderGlobal.playAuxSFX`).
+
+| Name                     | Value  | Notes |
+| ------------------------ | ------ | ----- |
+| `dispenserDispense`      | `1000` |       |
+| `dispenserFail`          | `1001` |       |
+| `dispenserShoot`         | `1002` |       |
+| `doorToggle`             | `1003` |       |
+| `fireExtinguish`         | `1004` |       |
+| `playRecord`             | `1005` |       |
+| `ghastCharge`            | `1007` |       |
+| `ghastShoot`             | `1008` |       |
+| `blazeShoot`             | `1009` |       |
+| `zombieAttackWoodenDoor` | `1010` |       |
+| `zombieAttackIronDoor`   | `1011` |       |
+| `zombieBreakWoodenDoor`  | `1012` |       |
+| `witherSpawn`            | `1013` |       |
+| `witherShoot`            | `1014` |       |
+| `batTakeoff`             | `1015` |       |
+| `zombieInfect`           | `1016` |       |
+| `zombieCure`             | `1017` |       |
+| `dragonDeath`            | `1018` |       |
+| `anvilBreak`             | `1020` |       |
+| `anvilUse`               | `1021` |       |
+| `anvilLand`              | `1022` |       |
+| `dispenserSmoke`         | `2000` |       |
+| `blockBreak`             | `2001` |       |
+| `splashPotion`           | `2002` |       |
+| `eyeOfEnderBreak`        | `2003` |       |
+| `mobSpawn`               | `2004` |       |
+| `bonemeal`               | `2005` |       |
+
+### ConstantName
+
+```ts
+type ConstantName<TTable extends Readonly<Record<string, number>>> =
+  keyof TTable & string;
+```
+
+Every name in a constants table, as a string-literal union. `ConstantName<typeof GAME_MODES>` is `"survival" | "creative" | "adventure" | "spectator"`.
+
+### namesOf(table)
+
+```ts
+function namesOf<TTable extends Readonly<Record<string, number>>>(
+  table: TTable,
+): ReadonlyMap<number, ConstantName<TTable>>;
+```
+
+Turns a table around, value to name, for logging and debugging decoded packets.
+
+```ts
+import { GAME_MODES, namesOf } from "@breezil/packet-defs";
+
+namesOf(GAME_MODES).get(3); // "spectator"
+```
+
+When a table maps two names to the same value (as `ENTITY_METADATA` does), the map keeps the name listed last in the table.
+
 ## Shared and supporting types
 
 These are the enums, value unions, shared structures, and constants referenced by the packet interfaces above. They are all exported from `@breezil/packet-defs`.
@@ -4054,5 +4575,5 @@ export interface ServerStatusResponse {
 
 #### HYPIXEL_CHANNELS
 
-The only exported runtime value in the package: a `const` object mapping Hypixel channel keys to their channel names. Documented in full under the Hypixel section above. Keys: `HELLO` (`"hyp:hello"`), `LOCATION` (`"hyp:location"`), `PARTY_INFO` (`"hyp:party_info"`), `PING` (`"hyp:ping"`).
+A `const` object mapping Hypixel channel keys to their channel names (the protocol's own value tables are under [Protocol constants](#protocol-constants)). Documented in full under the Hypixel section above. Keys: `HELLO` (`"hyp:hello"`), `LOCATION` (`"hyp:location"`), `PARTY_INFO` (`"hyp:party_info"`), `PING` (`"hyp:ping"`).
 

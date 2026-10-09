@@ -254,3 +254,43 @@ export {
   UpdateSignServerbound,
 } from "./play/serverbound/chat/index";
 
+// ── Play: Protocol constants ───────────────────────────────────────────
+export {
+  PROTOCOL_UNITS,
+  OBJECT_TYPES,
+  WINDOW_IDS,
+  PLAYER_INVENTORY_SLOTS,
+  STEER_VEHICLE_FLAGS,
+  ENTITY_METADATA,
+  ENTITY_FLAGS,
+  ARMOR_STAND_FLAGS,
+  GUARDIAN_FLAGS,
+  HORIZONTAL_FACINGS,
+  SKIN_PARTS,
+  ENTITY_STATUS,
+  ANIMATIONS,
+  ENTITY_ACTIONS,
+  USE_ENTITY_KINDS,
+  DIG_STATUS,
+  BLOCK_FACES,
+  WINDOW_CLICK_MODES,
+  WINDOW_CLICK_SLOTS,
+  EQUIPMENT_SLOTS,
+  GAME_MODES,
+  CLIENT_COMMANDS,
+  ABILITY_FLAGS,
+  POSITION_RELATIVE_FLAGS,
+  CHAT_POSITIONS,
+  TITLE_ACTIONS,
+  GAME_STATE_REASONS,
+  COMBAT_EVENTS,
+  PLAYER_INFO_ACTIONS,
+  TEAM_MODES,
+  TEAM_FRIENDLY_FLAGS,
+  RESOURCE_PACK_RESULTS,
+  TILE_ENTITY_ACTIONS,
+  WORLD_EVENTS,
+  namesOf,
+} from "./play/constants";
+export type { ConstantName } from "./play/constants";
+
